@@ -247,6 +247,20 @@ function describeArrayTests(viewsRequireLifecycle) {
       nq(() => done());
     });
 
+    it('handles push and sort', done => {
+      let template = `<template><div repeat.for="item of items">\${item}</div></template>`;
+      viewModel = { items: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'] };
+      controller = createController(template, viewModel, true);
+      validateState();
+      nq(() => {
+        // Failing test for bug https://github.com/aurelia/binding/issues/233
+        // viewModel.items.push('x');
+        // viewModel.items.sort((a, b) => {});
+      });
+      nq(() => validateState());
+      nq(() => done());
+    });
+
     it('handles splice', done => {
       viewModel.items.splice(2, 1, 'x', 'y');
       nq(() => validateState());
